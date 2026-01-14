@@ -1,13 +1,10 @@
--- Test Data untuk Mock API
+-- mock data
 
--- 1. Insert Test User (password: "password123" di-hash dengan bcryptjs)
--- Hash dibuat dengan: bcryptjs.hashSync("password123", 10)
 INSERT INTO users (email, password, name) VALUES 
-('test@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/TVG2', 'Test User'),
-('john@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/TVG2', 'John Doe'),
-('jane@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/TVG2', 'Jane Smith');
+('test@example.com', '$2a$12$OlF9wvP9NO0EmRddj9aLHOsNOJ/Dx6Lbo3eyvRkGEsDTBUvpzhINC', 'Test User'),
+('john@example.com', '$2a$12$OlF9wvP9NO0EmRddj9aLHOsNOJ/Dx6Lbo3eyvRkGEsDTBUvpzhINC', 'John Doe'),
+('jane@example.com', '$2a$12$OlF9wvP9NO0EmRddj9aLHOsNOJ/Dx6Lbo3eyvRkGEsDTBUvpzhINC', 'Jane Smith');
 
--- 2. Insert Test Events
 INSERT INTO events (
   event_name, 
   event_date, 
@@ -80,39 +77,3 @@ INSERT INTO events (
   '#StartupPitch2026',
   'PT Telkom, Bank Indonesia'
 );
-
--- 3. Verifikasi Data yang Diinsert
-SELECT COUNT(*) as total_users FROM users;
-SELECT COUNT(*) as total_events FROM events;
-
--- 4. View all inserted data
-SELECT 'Users' as table_name, COUNT(*) as count FROM users
-UNION ALL
-SELECT 'Events' as table_name, COUNT(*) as count FROM events
-UNION ALL
-SELECT 'Token Blacklist' as table_name, COUNT(*) as count FROM token_blacklist;
-
--- 5. Sample queries untuk testing
-
--- Get all events sorted by date
-SELECT * FROM events ORDER BY event_date DESC;
-
--- Get specific event
-SELECT * FROM events WHERE id = 1;
-
--- Get user by email
-SELECT id, email, name FROM users WHERE email = 'test@example.com';
-
--- Get events in a date range
-SELECT * FROM events 
-WHERE event_date BETWEEN '2026-02-01T00:00:00Z' AND '2026-04-30T23:59:59Z'
-ORDER BY event_date;
-
--- Get events by category
-SELECT * FROM events WHERE event_category = 'Technology';
-
--- Get total attendees across all events
-SELECT SUM(event_attendees) as total_attendees FROM events;
-
--- Get average attendees per event
-SELECT AVG(event_attendees) as avg_attendees FROM events;

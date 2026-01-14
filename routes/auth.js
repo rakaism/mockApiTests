@@ -11,11 +11,11 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(422).json({ msg: "Email and password required" });
+      return res.status(422).json({ msg: "Email dan password harus ada" });
     }
 
     const result = await connection.query(
-      "SELECT * FROM users WHERE email = $1 LIMIT 1",
+      "SELECT * FROM users WHERE email = $1",
       [email]
     );
     if (result.rows.length === 0) {
@@ -45,18 +45,10 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", authMiddleware, async (req, res) => {
-  try {
-    const token = req.token;
-    const decoded = jwt.decode(token);
-
-    await connection.query(
-      "INSERT INTO token_blacklist (token, expires_at) VALUES ($1, to_timestamp($2))",
-      [token, decoded.exp]
-    );
-
-    return res.json({ msg: "Berhasil logout" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ msg: "Server error" });
-  }
+  res.json({
+    success: true,
+    message: "Logout sukses",
+  });
 });
+
+module.exports = router;

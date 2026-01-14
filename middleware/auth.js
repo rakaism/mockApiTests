@@ -11,14 +11,6 @@ const authMiddleware = async (req, res, next) => {
     }
 
     const token = auth.split(" ")[1];
-    // cek blacklist
-    const result = await pool.query(
-      "SELECT id FROM token_blacklist WHERE token = $1 AND expires_at > NOW() LIMIT 1",
-      [token]
-    );
-    if (result.rows.length > 0) {
-      return res.status(401).json({ msg: "Token revoked" });
-    }
 
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -30,7 +22,7 @@ const authMiddleware = async (req, res, next) => {
     req.token = token;
     next();
   } catch (err) {
-    return res.status(401).json({ msg: "Invalid or expired token" });
+    return res.status(401).json({ msg: "Invalid token" });
   }
 };
 

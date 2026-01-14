@@ -8,12 +8,11 @@ const pool = new Pool({
   },
 });
 
-// Test koneksi
 pool.connect((err, client, release) => {
   if (err) {
-    console.error("❌ Error connecting to database:", err.stack);
+    console.error("DB: Gagal", err.stack);
   } else {
-    console.log("✅ Database connected successfully");
+    console.log("DB: Sukses");
     release();
   }
 });

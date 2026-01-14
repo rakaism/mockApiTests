@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
+const pool = require("./db");
 
 app.use(express.json());
 
@@ -12,23 +13,14 @@ const authRouter = require("./routes/auth");
 app.use("/api/events", eventsRouter);
 app.use("/api/auth", authRouter);
 
-app.get("/", (req, res) => res.send("OK"));
-
-if (process.env.VERCEL) {
-  module.exports = app;
-} else {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+app.get("/", (req, res) => res.send("Involuntir Frontend Test"));
 
 app.get("/api/test-db", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
     res.json({
       success: true,
-      message: "Database connected",
+      message: "db connected",
       time: result.rows[0],
     });
   } catch (error) {
@@ -39,6 +31,10 @@ app.get("/api/test-db", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+}
