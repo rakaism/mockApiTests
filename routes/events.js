@@ -23,12 +23,11 @@ router.get("/", async (req, res) => {
     );
 
     res.json({
-      result,
+      data: result.rows,
     });
   } catch (error) {
     console.error("Error fetch event", error);
     res.status(500).json({
-      success: false,
       message: "Error fetch event",
     });
   }
@@ -62,18 +61,16 @@ router.get("/:id/detail", async (req, res) => {
 
     if (result.rows.length === 0) {
       return res.status(404).json({
-        success: false,
         message: "Event tidak ada",
       });
     }
 
     res.json({
-      result,
+      data: result.rows,
     });
   } catch (error) {
     console.error("Fetch event detail error:", error);
     res.status(500).json({
-      success: false,
       message: "Gagal fetch event detail",
     });
   }
